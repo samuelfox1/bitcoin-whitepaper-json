@@ -41,7 +41,7 @@ const pdfToJson = async (uri) => {
         }
         data.text = sections
 
-        fs.writeFileSync('./test.json', JSON.stringify(data, null, 2))
+        fs.writeFileSync('./bitcoin.json', JSON.stringify(data, null, 2))
     } catch (err) {
         throw new Error(err);
     }
