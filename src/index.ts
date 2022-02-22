@@ -1,44 +1,32 @@
 import fs from "fs";
 import pdfParse from "pdf-parse";
+import { PDFParse, Section } from "./types";
+import { sectionTitles } from "./utils/sectionTitles";
+import { availableAssets } from "./utils/availableAssets";
 
-const sectionTitles: string[] = [
-  "Title",
-  "Abstract.",
-  "1.Introduction",
-  "2.Transactions",
-  "3.Timestamp Server",
-  "4.Proof-of-Work",
-  "5.Network",
-  "6.Incentive",
-  "7.Reclaiming Disk Space",
-  "8.Simplified Payment Verification",
-  "9.Combining and Splitting Value",
-  "10.Privacy",
-  "11.Calculations",
-  "12.Conclusion",
-  "References",
-];
+console.log(availableAssets);
 
 const pdfToJson = async (uri: string) => {
-  const buffer = fs.readFileSync(uri);
   try {
-    const data = await pdfParse(buffer);
+    const buffer = fs.readFileSync(uri);
+    const data: PDFParse = await pdfParse(buffer);
 
-    let progress = data.text;
-    const sections = [];
+    let progress: string = data.text;
+    const sections: Section[] = [];
 
     for (let i = 0; i < sectionTitles.length; i++) {
-      let current = progress.split(sectionTitles[i + 1]);
-      let currContentLength = current[0].length + sectionTitles[i + 1]?.length;
+      let current: String[] = progress.split(sectionTitles[i + 1]);
+      let currContentLength: number =
+        current[0].length + sectionTitles[i + 1]?.length;
       progress = progress.substring(currContentLength);
 
-      sections.push({
+      sections.push(<Section>{
         title: sectionTitles[i],
         content: current[0].trim(),
       });
     }
-    data.text = sections;
-
+    delete data.text;
+    data.document = sections;
     fs.writeFileSync("./bitcoin.json", JSON.stringify(data, null, 2));
   } catch (err) {
     throw new Error(err);
