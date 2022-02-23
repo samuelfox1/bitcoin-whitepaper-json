@@ -1,5 +1,5 @@
-# Bitcoin Whitepaper to JSON
+# Bitcoin White Paper to JSON
 
-parsed tht pdf document into JSON split into sections
+This tool uses the [pdf-parse](https://www.npmjs.com/package/pdf-parse) npm package to read the [bitcoin white paper](https://bitcoin.org/en/bitcoin-paper) pdf file and create a JSON file with the sections of the paper. As a bonus, a few screenshots are included for the corresponding sections.
 
-[grab it here](https://raw.githubusercontent.com/samuelfox1/bitcoin-whitepaper-json/main/bitcoin.json)
+[check it out here](https://raw.githubusercontent.com/samuelfox1/bitcoin-whitepaper-json/main/bitcoin.json)
