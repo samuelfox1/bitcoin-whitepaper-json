@@ -2,12 +2,12 @@ import fs from "fs";
 import pdfParse from "pdf-parse";
 import { PDFParse, Section } from "./types";
 import { sectionTitles } from "./utils/sectionTitles";
-import { availableAssets } from "./utils/availableAssets";
-
-console.log(availableAssets);
+import { getAvailableAssets } from "./utils/getAvailableAssets";
 
 const pdfToJson = async (uri: string) => {
   try {
+    const assets = getAvailableAssets();
+
     const buffer = fs.readFileSync(uri);
     const data: PDFParse = await pdfParse(buffer);
 
@@ -23,6 +23,7 @@ const pdfToJson = async (uri: string) => {
       sections.push(<Section>{
         title: sectionTitles[i],
         content: current[0].trim(),
+        image: assets[sectionTitles[i].split(".")[0]] || "",
       });
     }
     delete data.text;
